@@ -21,6 +21,11 @@ handler = WebhookHandler(channel_secret)
 line_bot_api = LineBotApi(channel_access_token)
 
 
+@app.route("/")
+def root():
+    return 'pong'
+
+
 @app.route("/callback", methods=['POST'])
 def callback():
     # get X-Line-Signature header value
