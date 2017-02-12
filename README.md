@@ -19,7 +19,7 @@ headline koran lampu hijau
 jadwal kuliah hari itu dan ruangan
 
 #### jancok
-**TBD**
+kata kata mutiara / peribahasa
 
 #### kucing
 http://thecatapi.com/api/images/get?size=med
@@ -27,3 +27,4 @@ http://thecatapi.com/api/images/get?size=med
 
 #### asu
 http://i.imgur.com/1MCV5s7.jpg
+
