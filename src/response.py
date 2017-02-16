@@ -42,7 +42,12 @@ class KucingResponse(BaseResponse):
         return resp["file"]
 
     def reply(self):
-        self.send_image(self.get_link())
+        url = "https://i.redditmedia.com/ldPvM97iIq9pM7cIn58ux3N2Mn67lasD5fiXIEqn9KY.jpg?s=74fef387f903f5bed5d4087e7518e10f"
+        pre = "https://i.redditmedia.com/ldPvM97iIq9pM7cIn58ux3N2Mn67lasD5fiXIEqn9KY.jpg?fit=crop&crop=faces%2Centropy&arh=2&w=216&s=fb649af2603f08ec039d2b455548c176"
+        BaseResponse.line_bot_api.reply_message(
+            self.reply_token, 
+            ImageSendMessage(url,pre)
+        )
 
 
 class AsuResponse(BaseResponse):
@@ -57,7 +62,7 @@ class AsuResponse(BaseResponse):
 class KoranResponse(BaseResponse):
 
     def reply(self):
-        self.send_image("koran")
+        self.send_text("koran_lampu_hijau.png")
 
 class IstighfarResponse(BaseResponse):
 
