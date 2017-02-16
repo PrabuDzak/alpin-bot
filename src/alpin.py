@@ -73,9 +73,9 @@ def main():
     arg_parser = ArgumentParser(
         usage='Usage: python ' + __file__ + ' [--host <host>] [--port <port>] [--help]'
     )
-    arg_parser.add_argument('-h', '--host', default='0.0.0.0', help='host')
+    # arg_parser.add_argument('-h', '--host', default='0.0.0.0', help='host')
     arg_parser.add_argument('-p', '--port', default=int(os.environ.get('PORT', 5000)), help='port')
     arg_parser.add_argument('-d', '--debug', default=False, help='debug')
     options = arg_parser.parse_args()
 
-    app.run(host=options.host, debug=options.debug, port=options.port)
+    app.run(host="0.0.0.0", debug=options.debug, port=options.port)

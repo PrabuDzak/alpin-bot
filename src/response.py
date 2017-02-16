@@ -24,7 +24,7 @@ class BaseResponse:
     def send_image(self, url):
         BaseResponse.line_bot_api.reply_message(
             self.reply_token,
-            ImageSendMessage(text=str)
+            ImageSendMessage(original_content_url=url, preview_image_url=url)
         )
 
     # def send_video(self, url):
