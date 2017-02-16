@@ -3,3 +3,4 @@ future
 flask
 gunicorn 
 line-bot-sdk
+psycopg2

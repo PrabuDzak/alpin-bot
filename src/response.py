@@ -2,24 +2,36 @@ import requests, json
 
 from linebot import LineBotApi
 from linebot.models import TextSendMessage, ImageSendMessage
-# from ...settings import Settings
+from settings import Settings
 
 class BaseResponse:
 
-    def __init__(self, reply_token):
-        self.reply_token = reply_token
+    line_bot_api = LineBotApi(Settings().LINE_CHANNEL_ACCESS_TOKEN)
+
+    def __init__(self, event):
+        self.reply_token = event.reply_token
 
     def reply(self):
         return 
 
     def send_text(self, str):
+        BaseResponse.line_bot_api.reply_message(
+            self.reply_token,
+            TextSendMessage(text=str)
+        )
         print(str)
 
     def send_image(self, url):
-        print ("gambar " + url)
+        BaseResponse.line_bot_api.reply_message(
+            self.reply_token,
+            ImageSendMessage(text=str)
+        )
 
     # def send_video(self, url):
     #     return
+
+    def send_sticker(self, pkg, stick):
+        print (pkg + " " + stick)
 
 
 class KucingResponse(BaseResponse):
@@ -51,6 +63,9 @@ class IstighfarResponse(BaseResponse):
 
     def reply(self):
         self.send_text("Astaghfirullah")
+
+class NullResponse(BaseResponse):
+    pass
 
 
 #### koran

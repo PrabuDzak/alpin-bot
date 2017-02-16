@@ -1,15 +1,15 @@
 import os
 import sys
 from argparse import ArgumentParser
+import re
 
 from flask import Flask, abort, request
 from linebot import WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage
 
-from .settings import Settings
-
-from .models.response import KucingResponse 
+from settings import Settings
+from response import *
 
 app = Flask(__name__)
 
@@ -39,13 +39,35 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def message_text(event):
-    command = extract_command(event.message.text)
+    msg = event.message.text
+    respond = NullResponse(event=event)
+
+    if (msg == "pin"):
+        respond.send_text("yuuhuu hadir")
+        return
+
+    if ("pin" in msg):
+
+        command = extract_command(msg)
+        if (command == "kucing"):
+            respond = KucingResponse(event)
+        elif (command == "koran"):
+            respond = KoranResponse(event)
+        elif (command == "istighfar"):
+            respond = IstighfarResponse(event)
+        elif (command == "asu") or (command == "anjing"):
+            respond = AsuResponse(event)
+
+        respond.reply()
+
+    else:
+        if (msg == "tes"):
+            respond.send_text("bisa tol")
 
 def extract_command(str):
-    
-    return str
-        
-
+    s = str.lower()
+    s = re.search("pin (.*) pin", s).group(1)
+    return s
 
 def main():
     arg_parser = ArgumentParser(
