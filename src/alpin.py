@@ -6,7 +6,7 @@ import re
 from flask import Flask, abort, request
 from linebot import WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage
+from linebot.models import MessageEvent, TextMessage, JoinEvent
 
 from settings import Settings
 from response import *
@@ -42,7 +42,7 @@ def message_text(event):
     msg = event.message.text
     respond = NullResponse(event=event)
 
-    if (msg == "pin"):
+    if (msg.lower() == "pin"):
         respond.send_text("yuuhuu hadir")
         return
 
@@ -57,12 +57,19 @@ def message_text(event):
             respond = IstighfarResponse(event)
         elif (command == "asu") or (command == "anjing"):
             respond = AsuResponse(event)
+        elif (command == "metu"):
+            respond = MetuResponse(event)
+        
 
         respond.reply()
 
     else:
         if (msg == "tes"):
             respond.send_text("bisa tol")
+
+@handler.add(JoinEvent)
+def join_event(event):
+    NullResponse(event).send_text("Hello fren")
 
 def extract_command(str):
     s = str.lower()

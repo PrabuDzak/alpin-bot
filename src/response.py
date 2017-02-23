@@ -1,7 +1,7 @@
 import requests, json
 
 from linebot import LineBotApi
-from linebot.models import TextSendMessage, ImageSendMessage
+from linebot.models import TextSendMessage, ImageSendMessage, SourceRoom, SourceGroup, SourceUser
 from settings import Settings
 
 class BaseResponse:
@@ -10,6 +10,7 @@ class BaseResponse:
 
     def __init__(self, event):
         self.reply_token = event.reply_token
+        self.source = event.source
 
     def reply(self):
         return 
@@ -42,7 +43,12 @@ class KucingResponse(BaseResponse):
         return resp["file"]
 
     def reply(self):
-        self.send_image(self.get_link())
+        url = "https://i.redditmedia.com/ldPvM97iIq9pM7cIn58ux3N2Mn67lasD5fiXIEqn9KY.jpg?s=74fef387f903f5bed5d4087e7518e10f"
+        pre = "https://i.redditmedia.com/ldPvM97iIq9pM7cIn58ux3N2Mn67lasD5fiXIEqn9KY.jpg?fit=crop&crop=faces%2Centropy&arh=2&w=216&s=fb649af2603f08ec039d2b455548c176"
+        BaseResponse.line_bot_api.reply_message(
+            self.reply_token, 
+            ImageSendMessage(url,pre)
+        )
 
 
 class AsuResponse(BaseResponse):
@@ -57,12 +63,24 @@ class AsuResponse(BaseResponse):
 class KoranResponse(BaseResponse):
 
     def reply(self):
-        self.send_image("koran")
+        self.send_text("koran_lampu_hijau.png")
 
 class IstighfarResponse(BaseResponse):
 
     def reply(self):
         self.send_text("Astaghfirullah")
+
+class MetuResponse(BaseResponse):
+    
+    def reply(self):
+        if(isinstance(self.source, SourceGroup)):
+            self.send_text("good bye my fren")
+            BaseResponse.line_bot_api.leave_group(self.source.group_id)
+        elif (isinstance(self.source, SourceRoom)):
+            self.send_text("good bye my fren")
+            BaseResponse.line_bot_api.leave_room(self.source.room_id)
+        else:
+            self.send_text("metu ndiass mu")
 
 class NullResponse(BaseResponse):
     pass
