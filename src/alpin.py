@@ -1,7 +1,6 @@
 import os
 import sys
 from argparse import ArgumentParser
-import re
 
 from flask import Flask, abort, request
 from linebot import WebhookHandler
@@ -10,6 +9,7 @@ from linebot.models import MessageEvent, TextMessage, JoinEvent
 
 from settings import Settings
 from response import *
+import helper as help
 
 app = Flask(__name__)
 
@@ -47,8 +47,8 @@ def message_text(event):
         return
 
     if ("pin" in msg):
+        command = help.extract_command(msg)
 
-        command = extract_command(msg)
         if (command == "kucing"):
             respond = KucingResponse(event)
         elif (command == "koran"):
@@ -59,22 +59,17 @@ def message_text(event):
             respond = AsuResponse(event)
         elif (command == "metu"):
             respond = MetuResponse(event)
-        
 
         respond.reply()
 
     else:
+        msg = msg.lower()
         if (msg == "tes"):
             respond.send_text("bisa tol")
 
 @handler.add(JoinEvent)
 def join_event(event):
     NullResponse(event).send_text("Hello fren")
-
-def extract_command(str):
-    s = str.lower()
-    s = re.search("pin (.*) pin", s).group(1)
-    return s
 
 def main():
     arg_parser = ArgumentParser(
@@ -86,3 +81,4 @@ def main():
     options = arg_parser.parse_args()
 
     app.run(host="0.0.0.0", debug=options.debug, port=options.port)
+    
