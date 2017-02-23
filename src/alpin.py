@@ -42,7 +42,7 @@ def message_text(event):
     msg = event.message.text
     respond = NullResponse(event=event)
 
-    if (msg == "pin"):
+    if (msg.lower() == "pin"):
         respond.send_text("yuuhuu hadir")
         return
 
