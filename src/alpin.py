@@ -67,6 +67,13 @@ def message_text(event):
         if (msg == "tes"):
             respond.send_text("bisa tol")
 
+@handler.add(JoinEvent)
+def join_event(event):
+    NullResponse(event).line_bot_api.reply_message(
+        event.reply_token, 
+        TextSendMessage(text="Hello fren")
+    )
+
 def extract_command(str):
     s = str.lower()
     s = re.search("pin (.*) pin", s).group(1)
