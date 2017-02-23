@@ -69,10 +69,7 @@ def message_text(event):
 
 @handler.add(JoinEvent)
 def join_event(event):
-    NullResponse(event).line_bot_api.reply_message(
-        event.reply_token, 
-        TextSendMessage(text="Hello fren")
-    )
+    NullResponse(event).send_text("Hello fren")
 
 def extract_command(str):
     s = str.lower()
