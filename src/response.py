@@ -1,7 +1,7 @@
 import requests, json
 
 from linebot import LineBotApi
-from linebot.models import TextSendMessage, ImageSendMessage
+from linebot.models import TextSendMessage, ImageSendMessage, SourceRoom, SourceGroup, SourceUser
 from settings import Settings
 
 class BaseResponse:
@@ -10,6 +10,7 @@ class BaseResponse:
 
     def __init__(self, event):
         self.reply_token = event.reply_token
+        self.source = event.source
 
     def reply(self):
         return 
@@ -68,6 +69,18 @@ class IstighfarResponse(BaseResponse):
 
     def reply(self):
         self.send_text("Astaghfirullah")
+
+class MetuResponse(BaseResponse):
+    
+    def reply(self):
+        if(isinstance(self.source, SourceGroup)):
+            self.send_text("good bye my fren")
+            BaseResponse.line_bot_api.leave_group(self.source.group_id)
+        elif (isinstance(self.source, SourceRoom)):
+            self.send_text("good bye my fren")
+            BaseResponse.line_bot_api.leave_room(self.source.room_id)
+        else:
+            self.send_text("metu ndiass mu")
 
 class NullResponse(BaseResponse):
     pass

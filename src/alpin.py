@@ -57,6 +57,9 @@ def message_text(event):
             respond = IstighfarResponse(event)
         elif (command == "asu") or (command == "anjing"):
             respond = AsuResponse(event)
+        elif (command == "metu"):
+            respond = MetuResponse(event)
+        
 
         respond.reply()
 
