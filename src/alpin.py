@@ -6,7 +6,7 @@ import re
 from flask import Flask, abort, request
 from linebot import WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage
+from linebot.models import MessageEvent, TextMessage, JoinEvent
 
 from settings import Settings
 from response import *
